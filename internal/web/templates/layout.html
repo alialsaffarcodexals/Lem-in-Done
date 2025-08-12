@@ -1,0 +1,202 @@
+{{define "layout.html"}}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{block "title" .}}Forum{{end}}</title>
+<style>
+  :root{
+    --bg:#0b1020;
+    --surface:#0f172a;
+    --card:#0b1224;
+    --muted:#94a3b8;
+    --text:#e5e7eb;
+    --brand:#6366f1;
+    --brand-contrast:#fff;
+    --ring:#93c5fd;
+    --border:#1f2a44;
+    --shadow:0 1px 2px rgba(0,0,0,.2), 0 8px 24px rgba(0,0,0,.25);
+    --radius:14px;
+  }
+  *, *::before, *::after { box-sizing: border-box }
+
+  /* Layout: sticky footer */
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+    background: radial-gradient(1200px 600px at 10% -10%, #1b2550 0%, #0b1020 40%, #070a14 100%) fixed;
+    color:var(--text);
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+  }
+  header, footer{ background: transparent; }
+  header .bar, footer .bar{
+    max-width:1100px; margin:0 auto; padding:16px;
+    display:flex; align-items:center; gap:12px;
+  }
+  main{
+    flex:1;
+    max-width:1100px; margin:0 auto; padding:20px 16px 32px;
+    width:100%;
+  }
+
+  /* Components */
+  a{ color:var(--brand); text-decoration:none }
+  a:hover{ text-decoration:underline }
+  .brand{
+    font-weight:800; letter-spacing:.2px; color:#fff; text-decoration:none;
+    display:inline-flex; align-items:center; gap:10px;
+  }
+  .brand-dot{ width:10px; height:10px; border-radius:50%; background:var(--brand); box-shadow:0 0 24px var(--brand) }
+  .spacer{ margin-left:auto }
+
+  .card{
+    background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+    border:1px solid var(--border); border-radius:var(--radius);
+    padding:16px; box-shadow:var(--shadow);
+    backdrop-filter: blur(6px);
+  }
+
+  .btn{
+    display:inline-block; padding:8px 12px; border-radius:10px;
+    border:1px solid var(--border); background:#0a1022; color:var(--text);
+    box-shadow: var(--shadow);
+  }
+  .btn:hover{ transform:translateY(-1px); }
+  .btn:focus{ outline:2px solid var(--ring); outline-offset:2px; }
+  .btn.primary{
+    background:linear-gradient(180deg, var(--brand), #4f46e5);
+    color:var(--brand-contrast); border-color:transparent;
+  }
+
+  .tag{
+    display:inline-block; font-size:12px; padding:2px 8px; border-radius:999px;
+    background:#111833; border:1px solid var(--border); color:#c7d2fe
+  }
+
+  /* Text-like controls should fill the width */
+  input:not([type]),
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="number"],
+  input[type="url"],
+  input[type="tel"],
+  textarea,
+  select{
+    width:100%;
+    max-width:100%;
+    padding:10px 12px;
+    color:var(--text);
+    background:#0b1020;
+    border:1px solid var(--border);
+    border-radius:10px;
+  }
+  input:focus, textarea:focus, select:focus{
+    outline:2px solid var(--ring);
+    outline-offset:2px;
+  }
+
+  /* Keep checkboxes/radios natural size */
+  input[type="checkbox"],
+  input[type="radio"]{
+    width:auto;
+    height:auto;
+    display:inline-block;
+    vertical-align:middle;
+    margin-right:6px;
+  }
+
+  /* Dark-theme autofill fix (Chrome/WebKit) */
+  input:-webkit-autofill,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill{
+    -webkit-text-fill-color: var(--text);
+    -webkit-box-shadow: 0 0 0 1000px #0b1020 inset;
+    box-shadow: 0 0 0 1000px #0b1020 inset;
+    border:1px solid var(--border);
+  }
+
+  /* Usability */
+  textarea{ resize:vertical; min-height:120px }
+  label{ font-size:13px; color:var(--muted); display:block; margin:10px 0 6px }
+
+  /* Grid (index sidebar + list) */
+  .grid{
+    display:grid; grid-template-columns: 260px 1fr; gap:16px;
+  }
+
+  /* Header & Footer polish */
+  header{
+    position: sticky; top:0; z-index:10;
+    background:linear-gradient(180deg, rgba(7,10,20,.7), rgba(7,10,20,.2));
+    border-bottom:1px solid var(--border);
+    backdrop-filter: blur(8px);
+  }
+  footer{
+    border-top:1px solid var(--border);
+    background:linear-gradient(0deg, rgba(7,10,20,.7), rgba(7,10,20,.3));
+    color:var(--muted);
+  }
+  .footer-meta{
+    display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+    font-size:13px;
+  }
+
+  .error-code {
+  font-size: 64px;
+  font-weight: 800;
+  background: linear-gradient(180deg, var(--brand), #4f46e5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}
+z
+  /* Responsiveness */
+  @media (max-width: 900px){
+    .grid{ grid-template-columns: 1fr }
+    header .bar, footer .bar, main{ padding-left:14px; padding-right:14px }
+  }
+  @media (max-width: 520px){
+    .btn{ padding:7px 10px }
+    .brand{ font-size:18px }
+  }
+</style>
+
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <a class="brand" href="/">
+        <span class="brand-dot"></span>
+        <span>Forum</span>
+      </a>
+      <a href="/post/new" class="btn">New Post</a>
+      <div class="spacer"></div>
+      {{if .LoggedIn}}
+        <span style="opacity:.9">Hi, {{.Username}}</span>
+        <a class="btn" href="/logout">Logout</a>
+      {{else}}
+        <a class="btn" href="/login">Login</a>
+        <a class="btn primary" href="/register">Register</a>
+      {{end}}
+    </div>
+  </header>
+
+  <main>
+    {{block "content" .}}{{end}}
+  </main>
+
+  <footer>
+    <div class="bar footer-meta">
+      <span>MVP • No JS • SQLite</span>
+      <span style="margin-left:auto">&copy; 2025 Your Company</span>
+    </div>
+  </footer>
+</body>
+</html>
+{{end}}

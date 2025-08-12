@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  forum:
+    build: .
+    ports: ["8080:8080"]
+    volumes:
+      - forum_data:/srv/data
+    restart: unless-stopped
+volumes:
+  forum_data: {}

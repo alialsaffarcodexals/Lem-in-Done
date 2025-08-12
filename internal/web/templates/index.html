@@ -1,0 +1,37 @@
+{{define "index.html"}}{{template "layout.html" .}}{{end}}
+
+{{define "title"}}Forum — Home{{end}}
+{{define "content"}}
+<div class="grid">
+  <aside>
+    <div class="card">
+      <form method="get" action="/">
+        <label>Category</label>
+        <select name="category">
+          <option value="">All</option>
+          {{range .Categories}}
+            <option value="{{.}}" {{if eq $.Filter.category .}}selected{{end}}>{{.}}</option>
+          {{end}}
+        </select>
+        <label>My posts</label>
+        <input type="checkbox" name="mine" value="1" {{if eq .Filter.mine "1"}}checked{{end}}>
+        <label>Liked posts</label>
+        <input type="checkbox" name="liked" value="1" {{if eq .Filter.liked "1"}}checked{{end}}>
+        <div style="margin-top:8px"><button class="btn primary" type="submit">Apply</button></div>
+      </form>
+    </div>
+  </aside>
+  <section>
+    {{range .Posts}}
+      <article class="card">
+        <h3 style="margin:0 0 6px"><a href="/post?id={{.ID}}">{{.Title}}</a></h3>
+        <div style="font-size:12px;color:#6b7280">by {{.Username}} • {{.CreatedAt}}</div>
+        <p>{{.Body}}</p>
+        <div style="font-size:12px;color:#374151">👍 {{.Likes}} &nbsp; 👎 {{.Dislikes}}</div>
+      </article>
+    {{else}}
+      <div class="card">No posts yet.</div>
+    {{end}}
+  </section>
+</div>
+{{end}}
